@@ -1,0 +1,505 @@
+package it.disguise.com;
+
+
+
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.HashMap;
+
+import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy;
+import net.minecraft.server.v1_8_R3.PacketPlayOutNamedEntitySpawn;
+import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo;
+import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo.EnumPlayerInfoAction;
+import org.apache.commons.io.IOUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.entity.Bat;
+import org.bukkit.entity.Blaze;
+import org.bukkit.entity.CaveSpider;
+import org.bukkit.entity.Chicken;
+import org.bukkit.entity.Cow;
+import org.bukkit.entity.Creeper;
+import org.bukkit.entity.Enderman;
+import org.bukkit.entity.Endermite;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Giant;
+import org.bukkit.entity.Guardian;
+import org.bukkit.entity.Horse;
+import org.bukkit.entity.IronGolem;
+import org.bukkit.entity.MagmaCube;
+import org.bukkit.entity.MushroomCow;
+import org.bukkit.entity.Ocelot;
+import org.bukkit.entity.Pig;
+import org.bukkit.entity.PigZombie;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Rabbit;
+import org.bukkit.entity.Sheep;
+import org.bukkit.entity.Silverfish;
+import org.bukkit.entity.Skeleton;
+import org.bukkit.entity.Slime;
+import org.bukkit.entity.Snowman;
+import org.bukkit.entity.Spider;
+import org.bukkit.entity.Squid;
+import org.bukkit.entity.Villager;
+import org.bukkit.entity.Witch;
+import org.bukkit.entity.Wither;
+import org.bukkit.entity.Wolf;
+import org.bukkit.entity.Zombie;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
+
+public class Main extends JavaPlugin implements Listener
+{
+
+	
+	HashMap<String, Entity>mob = new HashMap<>();
+	
+	
+	   @Override
+       public void onEnable() {
+               Bukkit.getPluginManager().registerEvents(this, this);
+       }
+      
+	   
+	   
+	public void skinMob(Player p, EntityType elmob){
+	
+		//tal ves quitar esto y que se cambie el mob solo... matar al mob anterior y poner el nuevo
+		if(mob.get(p.getName())!=null){
+			mob.get(p.getName()).remove();
+			mob.remove(p.getName());
+		}
+		
+		Player player = p;
+		Entity entity=null;
+		   
+		switch (elmob) {
+		case BAT:
+			entity = player.getWorld().spawn(player.getLocation(), Bat.class);
+			break;
+		case BLAZE:
+			entity = player.getWorld().spawn(player.getLocation(), Blaze.class);
+			break;
+		case CAVE_SPIDER:
+			entity = player.getWorld().spawn(player.getLocation(), CaveSpider.class);
+			break;
+		case CHICKEN:
+			entity = player.getWorld().spawn(player.getLocation(), Chicken.class);
+			break;
+		case COW:
+			entity = player.getWorld().spawn(player.getLocation(), Cow.class);
+			break;
+		case CREEPER:
+			entity = player.getWorld().spawn(player.getLocation(), Creeper.class);
+			break;
+		case ENDERMAN:
+			entity = player.getWorld().spawn(player.getLocation(), Enderman.class);
+			break;
+		case ENDERMITE:
+			entity = player.getWorld().spawn(player.getLocation(), Endermite.class);
+			break;
+		case GIANT:
+			entity = player.getWorld().spawn(player.getLocation(), Giant.class);
+			break;
+		case GUARDIAN:
+			entity = player.getWorld().spawn(player.getLocation(), Guardian.class);
+			break;
+		case HORSE:
+			entity = player.getWorld().spawn(player.getLocation(), Horse.class);
+			break;
+		case IRON_GOLEM:
+			entity = player.getWorld().spawn(player.getLocation(), IronGolem.class);
+			break;
+		case MAGMA_CUBE:
+			entity = player.getWorld().spawn(player.getLocation(), MagmaCube.class);
+			break;
+		case MUSHROOM_COW:
+			entity = player.getWorld().spawn(player.getLocation(), MushroomCow.class);
+			break;
+		case OCELOT:
+			entity = player.getWorld().spawn(player.getLocation(), Ocelot.class);
+			break;
+		case PIG:
+			entity = player.getWorld().spawn(player.getLocation(), Pig.class);
+			break;
+		case PIG_ZOMBIE:
+			entity = player.getWorld().spawn(player.getLocation(), PigZombie.class);
+			break;
+		case RABBIT:
+			entity = player.getWorld().spawn(player.getLocation(), Rabbit.class);
+			break;
+		case SHEEP:
+			entity = player.getWorld().spawn(player.getLocation(), Sheep.class);
+			break;
+		case SILVERFISH:
+			entity = player.getWorld().spawn(player.getLocation(), Silverfish.class);
+			break;
+		case SKELETON:
+			entity = player.getWorld().spawn(player.getLocation(), Skeleton.class);
+			break;
+		case SLIME:
+			entity = player.getWorld().spawn(player.getLocation(), Slime.class);
+			break;
+		case SNOWMAN:
+			entity = player.getWorld().spawn(player.getLocation(), Snowman.class);
+			break;
+		case SPIDER:
+			entity = player.getWorld().spawn(player.getLocation(), Spider.class);
+			break;
+		case SQUID:
+			entity = player.getWorld().spawn(player.getLocation(), Squid.class);
+			break;
+		case VILLAGER:
+			entity = player.getWorld().spawn(player.getLocation(), Villager.class);
+			break;
+		case WITCH:
+			entity = player.getWorld().spawn(player.getLocation(), Witch.class);
+			break;
+		case WITHER:
+			entity = player.getWorld().spawn(player.getLocation(), Wither.class);
+			break;
+		case WOLF:
+			entity = player.getWorld().spawn(player.getLocation(), Wolf.class);
+			break;
+		case ZOMBIE:
+			entity = player.getWorld().spawn(player.getLocation(), Zombie.class);
+			break;
+		default:
+			entity = player.getWorld().spawn(player.getLocation(), Zombie.class);
+			break;
+		}   
+
+		   
+		   mob.put(player.getName(), entity);
+		   EntityModifier eM = new EntityModifier(entity, this);
+		   
+		   
+		   
+		   ItemStack it = new ItemStack(Material.POTION);
+		   PotionEffect pe = new PotionEffect(PotionEffectType.INVISIBILITY, 10000, 5);
+		   PotionMeta pm = (PotionMeta) it.getItemMeta();
+		   pm.removeItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+		   
+		   
+		   ((CraftPlayer) player).getHandle().setInvisible(true);
+		   
+		   
+		   player.addPotionEffect(pe);
+		   
+
+		   //hideSkin(player);
+		   //player.removeMetadata(arg0, arg1)
+		   
+		   eM.modify().setNoAI(true);
+		   
+	   }
+	   
+	   
+	
+	
+   	
+	@EventHandler
+	public void onMove(PlayerMoveEvent e){
+		if(mob.get(e.getPlayer().getName())!=null){
+			mob.get(e.getPlayer().getName()).teleport(e.getPlayer().getLocation());
+			
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+
+
+	//https://mineskin.org/ aca puedes crear nuevos skins
+	public void hideSkin(Player p){
+        String value = "eyJ0aW1lc3RhbXAiOjE0OTQ1MDMzNTk2ODEsInByb2ZpbGVJZCI6ImRhNzQ2NWVkMjljYjRkZTA5MzRkOTIwMTc0NDkxMzU1IiwicHJvZmlsZU5hbWUiOiJJc2F5bGEiLCJzaWduYXR1cmVSZXF1aXJlZCI6dHJ1ZSwidGV4dHVyZXMiOnsiU0tJTiI6eyJ1cmwiOiJodHRwOi8vdGV4dHVyZXMubWluZWNyYWZ0Lm5ldC90ZXh0dXJlLzQ0ZTczNzMwOTAxZWZkNmNkNjNlYTlhZjcxMzk4MDk4N2NkN2U4ZTI1Yjg4NTBmNzM5ZGIyYWVhOWQ1OGM1In19fQ==";
+        String signature = "wrsppt30/2YOM3sc9pmOXmaV9bf+YgjYjFx09AW1+L/xOWOoRUsbmndNzf8cNSDAlJH1XWyq+xOS5+IIpVVdMSmg/xXyecdU3uAA4SeXFepjwd30Nf9Kgup+hIJ+hGvzHVnCN2g1OVB1dchOSKbSmP8VzFCNZinxntEnqZuj1xGMVT0ZBi+ox2lg8wNUm5ram1DHGnhh/uwm/j9c+//sZVsNflyqzSn4GUmRNAD4Csf/MWUMysRDoZlRjncrf393mTynjh7erydxoEtaI03oEt7kdVvIZftiih0brJIHSmg7M1a4tpZJAgpS3qINEjiQdF4z9ol9M0xIoj7HZVD7fMh90JEpCCxz0Lfdux22R6aKnQitAow2rQ4w3KhXn7V+DvdmJw6s/vWJE7UX2Tref1sAhlxdy92x5j9VgWBHlNKVXtb1a7BEKH2iXrdLby9od8cOmfvRM0W/ikJvi4RhAcuuD65HeRSSGPeI1V7/NgNN9JGPF3GAEBQIx0BHzc0dmEtcbF3sFl9XRshd6f420OxQ1L0YjQMbXqhTPNZAAiG+ONoUcemUp/kgYw/v7R3nUDtv/O/ENfwUGXQybS2pI0AHlyvvO7Yr7IzoVmAY0DeqFAZ2nBCQ8Or/Th5w8bjRnAJCeMdaf+noIZgmQ9doiSRMxzljDKE95q3kA/b6scM=";
+        /*try {
+            JSONParser parser = new JSONParser();
+            Object obj = parser.parse(getResponse("https://api.mojang.com/users/profiles/minecraft/" + skinName));
+            JSONObject json = (JSONObject)obj;
+            String uuid = (String)json.get("id");
+            Object obj2 = parser.parse(getResponse("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid + "?unsigned=false"));
+            JSONObject json2 = (JSONObject)obj2;
+            Object props = ((JSONArray)json2.get("properties")).get(0);
+            JSONObject propsObj = (JSONObject)props;
+            value = (String)propsObj.get("value");
+            signature = (String)propsObj.get("signature");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }*/
+        for(Player pl : Bukkit.getServer().getOnlinePlayers()){
+            //if(pl == p) continue;
+            //REMOVES THE PLAYER creo que de el list cuando presionas TAB
+            ((CraftPlayer)pl).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(EnumPlayerInfoAction.REMOVE_PLAYER, ((CraftPlayer)p).getHandle()));
+            //CHANGES THE PLAYER'S GAME PROFILE
+            GameProfile gp = ((CraftPlayer)p).getProfile();
+            gp.getProperties().removeAll("textures");
+            
+            World w = pl.getWorld();
+            double x=pl.getLocation().getX();
+            double y=pl.getLocation().getY();
+            double z=pl.getLocation().getZ();
+            
+            if(pl == p){
+            	if(!w.getName().equals(Bukkit.getWorlds().get(0).getName())){            		
+            		p.teleport(new Location(Bukkit.getWorlds().get(0), 100, Bukkit.getWorlds().get(0).getHighestBlockYAt(100, 100), 100));
+            	}else{
+            		p.teleport(new Location(Bukkit.getWorlds().get(1), 100, Bukkit.getWorlds().get(1).getHighestBlockYAt(100, 100), 100));
+            	}
+            	
+            }
+            
+            gp.getProperties().put("textures", new Property("textures", value, signature));
+            
+            
+            
+            //ADDS THE PLAYER
+            ((CraftPlayer)pl).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(EnumPlayerInfoAction.ADD_PLAYER, ((CraftPlayer)p).getHandle()));
+            ((CraftPlayer)pl).getHandle().playerConnection.sendPacket(new PacketPlayOutEntityDestroy(p.getEntityId()));
+            ((CraftPlayer)pl).getHandle().playerConnection.sendPacket(new PacketPlayOutNamedEntitySpawn(((CraftPlayer)p).getHandle()));
+            if(pl == p){
+            	
+            	p.teleport(new Location(w, x, y, z));
+            	
+            }
+        }
+    }
+	
+	
+	
+	
+	
+	
+	
+
+
+	public void changeSkin(Player p, String skinName){
+        String value = null;
+        String signature = null;
+        try {
+            JSONParser parser = new JSONParser();
+            Object obj = parser.parse(getResponse("https://api.mojang.com/users/profiles/minecraft/" + skinName));
+            JSONObject json = (JSONObject)obj;
+            String uuid = (String)json.get("id");
+            Object obj2 = parser.parse(getResponse("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid + "?unsigned=false"));
+            JSONObject json2 = (JSONObject)obj2;
+            Object props = ((JSONArray)json2.get("properties")).get(0);
+            JSONObject propsObj = (JSONObject)props;
+            value = (String)propsObj.get("value");
+            signature = (String)propsObj.get("signature");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        for(Player pl : Bukkit.getServer().getOnlinePlayers()){
+            //if(pl == p) continue;
+            //REMOVES THE PLAYER creo que de el list cuando presionas TAB
+            ((CraftPlayer)pl).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(EnumPlayerInfoAction.REMOVE_PLAYER, ((CraftPlayer)p).getHandle()));
+            //CHANGES THE PLAYER'S GAME PROFILE
+            GameProfile gp = ((CraftPlayer)p).getProfile();
+            gp.getProperties().removeAll("textures");
+            
+            World w = pl.getWorld();
+            double x=pl.getLocation().getX();
+            double y=pl.getLocation().getY();
+            double z=pl.getLocation().getZ();
+            
+            if(pl == p){
+            	if(!w.getName().equals(Bukkit.getWorlds().get(0).getName())){            		
+            		p.teleport(new Location(Bukkit.getWorlds().get(0), 100, Bukkit.getWorlds().get(0).getHighestBlockYAt(100, 100), 100));
+            	}else{
+            		p.teleport(new Location(Bukkit.getWorlds().get(1), 100, Bukkit.getWorlds().get(1).getHighestBlockYAt(100, 100), 100));
+            	}
+            	
+            }
+            
+            gp.getProperties().put("textures", new Property("textures", value, signature));
+            
+            
+            
+            //ADDS THE PLAYER
+            ((CraftPlayer)pl).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(EnumPlayerInfoAction.ADD_PLAYER, ((CraftPlayer)p).getHandle()));
+            ((CraftPlayer)pl).getHandle().playerConnection.sendPacket(new PacketPlayOutEntityDestroy(p.getEntityId()));
+            ((CraftPlayer)pl).getHandle().playerConnection.sendPacket(new PacketPlayOutNamedEntitySpawn(((CraftPlayer)p).getHandle()));
+            if(pl == p){
+            	
+            	p.teleport(new Location(w, x, y, z));
+            	
+            }
+        }
+    }
+	
+	public String getResponse(String _url){
+        try {
+            URL url = new URL(_url);
+            URLConnection con = url.openConnection();
+            InputStream in = con.getInputStream();
+            String encoding = con.getContentEncoding();
+            encoding = encoding == null ? "UTF-8" : encoding;
+            String body = IOUtils.toString(in, encoding);
+            return body;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+	
+	
+	
+	
+    
+    @Override
+    public boolean onCommand(final CommandSender sender,Command cmd,String label,String[] args){
+    if(label.equalsIgnoreCase("disguise")){
+    if(sender instanceof Player){
+    	Player p=(Player)sender;
+    	if(args[0].equalsIgnoreCase("player")){
+        	changeSkin(p, args[1]);
+        }
+    	if(args[0].equalsIgnoreCase("mob")){
+    		
+    		
+    		//ARREGLAR ITEMS EN MANO Y ARMADURAS...
+    		
+    		switch (args[1]) {    		
+    		case "BAT":
+    			skinMob(p, EntityType.BAT);   //PONER ANIMACIONES 			
+    			break;
+    		case "BLAZE":
+    			skinMob(p, EntityType.BLAZE);    			
+    			break;
+    		case "CAVE_SPIDER":
+    			skinMob(p, EntityType.CAVE_SPIDER);    			
+    			break;
+    		case "CHICKEN":
+    			skinMob(p, EntityType.CHICKEN);    			
+    			break;
+    		case "COW":
+    			skinMob(p, EntityType.COW);    			
+    			break;
+    		case "CREEPER":
+    			skinMob(p, EntityType.CREEPER);    			
+    			break;
+    		case "ENDERMAN":
+    			skinMob(p, EntityType.ENDERMAN);    			
+    			break;
+    		case "ENDERMITE":
+    			skinMob(p, EntityType.ENDERMITE);    			
+    			break;
+    		case "GIANT":
+    			skinMob(p, EntityType.GIANT);    			
+    			break;
+    		case "GUARDIAN":
+    			skinMob(p, EntityType.GUARDIAN);    			
+    			break;
+    		case "HORSE":
+    			skinMob(p, EntityType.HORSE);    			
+    			break;
+    		case "IRON_GOLEM":
+    			skinMob(p, EntityType.IRON_GOLEM);    			
+    			break;
+    		case "MAGMA_CUBE":
+    			skinMob(p, EntityType.MAGMA_CUBE);
+    			break;
+    		case "MUSHROOM_COW":
+    			skinMob(p, EntityType.MUSHROOM_COW);
+    			break;
+    		case "OCELOT":
+    			skinMob(p, EntityType.OCELOT);
+    			break;
+    		case "PIG":
+    			skinMob(p, EntityType.PIG);
+    			break;
+    		case "PIG_ZOMBIE":
+    			skinMob(p, EntityType.PIG_ZOMBIE);
+    			break;
+    		case "RABBIT":
+    			skinMob(p, EntityType.RABBIT);//PONER ANIMACIONES
+    			break;
+    		case "SHEEP":
+    			skinMob(p, EntityType.SHEEP);
+    			break;
+    		case "SILVERFISH":
+    			skinMob(p, EntityType.SILVERFISH); //DETENERLO CUANDO NO NOS MOVAMOS   			
+    			break;
+    		case "SKELETON":
+    			skinMob(p, EntityType.SKELETON);    			
+    			break;
+    		case "SLIME":
+    			skinMob(p, EntityType.SLIME);
+    			break;
+    		case "SNOWMAN":
+    			skinMob(p, EntityType.SNOWMAN);//QUE NO MUERAN Y QUITAR INTERACIONES DE NOSOTROS EN ELLOS
+    			break;
+    		case "SPIDER":
+    			skinMob(p, EntityType.SPIDER);//PONER ANIMACION DE GOLPE CUANDO ATACAMOS
+    			break;
+    		case "SQUID":
+    			skinMob(p, EntityType.SQUID);//PONERLE NUESTRA ARMADURA Y ITEMS EN MANO
+    			break;
+    		case "VILLAGER":
+    			skinMob(p, EntityType.VILLAGER);
+    			break;
+    		case "WITCH":
+    			skinMob(p, EntityType.WITCH);
+    			break;
+    		case "WITHER":
+    			skinMob(p, EntityType.WITHER);
+    			break;
+    		case "WOLF":
+    			skinMob(p, EntityType.WOLF);
+    			break;
+    		case "ZOMBIE":
+    			skinMob(p, EntityType.ZOMBIE);
+    			break;
+    		default:
+    			skinMob(p, EntityType.ZOMBIE);
+    			break;
+    		}  
+    		   			
+    		
+    		
+    	}
+    	if(args[0].equalsIgnoreCase("help")){
+    		p.sendMessage("");
+    		p.sendMessage("/disguise player nickname");
+    		p.sendMessage("/disguise mob Cow");
+    		p.sendMessage("");
+    		p.sendMessage("/disguise player none");
+    		p.sendMessage("/disguise mob none");
+    		
+    	}
+    	
+    
+    }
+    }
+	return true;
+    }
+}
